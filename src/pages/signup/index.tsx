@@ -1,12 +1,13 @@
+import { FormEvent, useState, useContext } from 'react'
+import styles from '../../styles/home.module.scss'
+import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../../styles/home.module.scss'
+import Link from 'next/link'
 import logoImg from '../../../public/logo.svg'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
-import Link from 'next/link'
-import { FormEvent, useState } from 'react'
-import { useContext } from 'react'
+import { toast } from 'react-toastify'
 import { AuthContext } from '@/contexts/AuthContext'
 
 export default function Signup() {
@@ -20,7 +21,7 @@ export default function Signup() {
     event.preventDefault()
 
     if (name === '' || email === '' || password === '') {
-      alert('Preencha todos os campos')
+      toast.warning('Preencha os campos corretamente')
       return;
     }
 
@@ -81,4 +82,13 @@ export default function Signup() {
       </div>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+
+  console.log('Testando Server Side Props')
+  
+  return {
+    props: {}
+  }
 }
