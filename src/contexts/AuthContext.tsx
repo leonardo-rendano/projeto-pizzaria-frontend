@@ -92,7 +92,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     } catch (error) {
       toast.error('Erro ao acessar')
-      console.log('erro ao acessar', error)
+      
     }
   }
 
