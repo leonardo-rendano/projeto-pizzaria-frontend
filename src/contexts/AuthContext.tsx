@@ -1,12 +1,14 @@
 import { createContext, ReactNode, useState } from 'react'
-import { destroyCookie } from 'nookies'
+import { destroyCookie, setCookie, parseCookies } from 'nookies'
 import Router from 'next/router'
+import { api } from '../services/apiClient'
 
 type AuthContextData = {
   user: UserProps;
   isAuthenticated: boolean
   signIn: (credentials: SignInProps) => Promise<void>
   signOut: () => void
+  signUp: (credentials: SignUpProps) => Promise<void>
 }
 
 type SignInProps = {
@@ -22,6 +24,12 @@ type UserProps = {
 
 type AuthProviderProps = {
   children: ReactNode
+}
+
+type SignUpProps = {
+  name: string;
+  email: string;
+  password: string
 }
 
 export const AuthContext = createContext({} as AuthContextData)
@@ -40,8 +48,42 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = !!user
 
   async function signIn({ email, password }: SignInProps) {
-    console.log('DADOS PARA LOGAR ', email )
-    console.log('SENHA ', password)
+    try {
+      const response = await api.post('/session', {
+        email, 
+        password
+      })
+
+      const { id, name, token } = response.data
+
+      setCookie(undefined, '@nextauth.token', token, {
+        maxAge: 60 * 60 * 24 * 30,
+        path: '/'
+      })
+
+      setUser({ id, name, email })
+
+      api.defaults.headers['Authorization'] = `Bearer ${token}`
+
+      Router.push('/dashboard')
+
+    } catch (error) {
+      console.log('erro ao acessar', error)
+    }
+  }
+
+  async function signUp({ name, email, password }: SignUpProps) {
+    try {
+      await api.post('/users', {
+        name,
+        email,
+        password
+      })
+      Router.push('/')
+
+    } catch (error) {
+      console.log('Erro ao cadastrar ', error)
+    }
   }
 
   return (
@@ -49,7 +91,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       user,
       isAuthenticated,
       signIn,
-      signOut
+      signOut,
+      signUp
     }}>
       {children}
     </AuthContext.Provider>
