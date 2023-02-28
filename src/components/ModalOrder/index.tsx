@@ -1,14 +1,7 @@
 import Modal from 'react-modal'
 import { FiX } from 'react-icons/fi'
 import styles from './styles.module.scss'
-import { OrderItemProps } from '../../pages/dashboard'
-
-interface ModalOrderProps {
-  isOpen: boolean,
-  onRequestClose: () => void,
-  order: OrderItemProps[],
-  handleFinishOrder: (id: string) => void 
-}
+import { ModalOrderProps } from './types'
 
 export function ModalOrder({ isOpen, onRequestClose, order, handleFinishOrder }: ModalOrderProps) {
 

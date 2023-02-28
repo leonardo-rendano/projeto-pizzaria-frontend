@@ -6,18 +6,9 @@ import { Header } from "@/components/Header";
 import { FiUpload } from 'react-icons/fi'
 import { setupAPIClient } from '../../services/api'
 import { toast } from 'react-toastify'
-
-interface ItemProps {
-  id: string;
-  name: string
-}
-
-interface CategoryProps {
-  categoryList: ItemProps[]
-}
+import { CategoryProps } from "./types";
 
 export default function Product({ categoryList }: CategoryProps) {
-
   const [avatarUrl, setAvatarUrl] = useState('')
   const [imageAvatar, setImageAvatar] = useState(null)
   const [categories, setCategories] = useState(categoryList || [])

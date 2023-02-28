@@ -8,38 +8,7 @@ import Modal from 'react-modal'
 import { ModalOrder } from "@/components/ModalOrder" 
 import styles from './styles.module.scss'
 import { toast } from "react-toastify"
-
-type OrderProps = {
-  id: string,
-  table: string | number,
-  status: boolean,
-  draft: boolean,
-  name: string | null
-}
-
-interface HomeProps {
-  orders: OrderProps[]
-}
-
-export type OrderItemProps = {
-  id: string,
-  amount: number,
-  order_id: string,
-  product_id: string,
-  product: {
-    id: string,
-    name: string,
-    description: string,
-    price: string,
-    banner: string
-  }
-  order: {
-    id: string,
-    table: string | number,
-    status: boolean,
-    name: string | null
-  }
-}
+import { HomeProps, OrderItemProps } from './types'
 
 export default function Dashboard({ orders }: HomeProps) {
 

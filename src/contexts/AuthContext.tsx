@@ -1,37 +1,10 @@
-import { createContext, ReactNode, useState, useEffect } from 'react'
+import { createContext, useState, useEffect } from 'react'
 import { destroyCookie, setCookie, parseCookies } from 'nookies'
 import Router from 'next/router'
 import { api } from '../services/apiClient'
 import { toast } from 'react-toastify'
+import { AuthContextData, AuthProviderProps, SignInProps, SignUpProps, UserProps,  } from './types'
 
-type AuthContextData = {
-  user: UserProps;
-  isAuthenticated: boolean
-  signIn: (credentials: SignInProps) => Promise<void>
-  signOut: () => void
-  signUp: (credentials: SignUpProps) => Promise<void>
-}
-
-type SignInProps = {
-  email: string;
-  password: string
-}
-
-type UserProps = {
-  id: string;
-  name: string;
-  email: string;
-}
-
-type AuthProviderProps = {
-  children: ReactNode
-}
-
-type SignUpProps = {
-  name: string;
-  email: string;
-  password: string
-}
 
 export const AuthContext = createContext({} as AuthContextData)
 
